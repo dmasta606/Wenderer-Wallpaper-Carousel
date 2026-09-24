@@ -1,176 +1,241 @@
 Wenderer Wallpaper Carousel — personal installer v2.1
-===================================================
+=======================================================
 
-Назначение
-----------
-Это личный установщик проверенной версии Wallpaper Carousel v7.7 для текущего
-сетапа Caelestia + Hyprland + Quickshell.
+Purpose
+-------
+This is a personal installer for the tested Wallpaper Carousel v7.7 used with
+the current Caelestia + Hyprland + Quickshell setup.
 
-Главная цель — после переустановки Arch не повторять ручную настройку:
-распаковать архив -> запустить Install.desktop -> получить готовую карусель,
-бинд SUPER+W, автозапуск и стартовый пак обоев.
+The main goal is to avoid repeating the entire manual setup after reinstalling
+Arch Linux:
 
-Это НЕ standalone-программа: текущая shell.qml всё ещё интегрирована с
-Caelestia. Она использует Caelestia для текущих обоев/динамической схемы и
-применения wallpaper. Установщик рассчитан именно на Caelestia-сетап.
+  extract / clone -> run Install.desktop -> get the working carousel,
+  SUPER+W keybind, autostart and a starter wallpaper pack.
+
+This is NOT a standalone application. The current shell.qml is still integrated
+with Caelestia. It uses Caelestia for the current wallpaper state, dynamic
+colour scheme and wallpaper application.
+
+The installer is designed specifically for a Caelestia-based setup.
 
 
-Быстрая установка
------------------
-1. Сначала установить/настроить Caelestia и один раз запустить обычный Hyprland.
-2. Распаковать этот архив куда угодно, например в Downloads.
-3. Двойной клик по Install.desktop.
-4. Если файловый менеджер не разрешает запуск .desktop из распакованной папки,
-   запустить Install.sh через пункт «Запустить».
+Credits / Inspiration
+---------------------
+The wallpaper carousel concept and much of its visual direction were inspired
+by Serpantinum:
 
-После установки:
-  SUPER+B -> браузер
+  https://github.com/ilyamiro/serpantinum
+
+Serpantinum is created by Illia Miroshnichenko (@ilyamiro):
+
+  https://github.com/ilyamiro
+
+Serpantinum was the main reference and inspiration for the wallpaper picker /
+carousel idea and its overall animation feel.
+
+This repository is a separate personal implementation made for Caelestia and
+is not affiliated with or endorsed by the Serpantinum project.
+
+Special thanks to Illia for making Serpantinum public and for the original
+inspiration.
+
+
+Quick installation
+------------------
+1. Install and configure Caelestia first, then launch a normal Hyprland session
+   at least once.
+2. Clone this repository or extract the installer archive anywhere, for example
+   into Downloads.
+3. Double-click Install.desktop.
+4. If the file manager does not allow launching .desktop files from the
+   extracted directory, run Install.sh using the file manager's "Run" action
+   or from a terminal.
+
+After installation:
+
+  SUPER+B -> browser
   SUPER+W -> Wallpaper Carousel
 
-Карусель запускается автоматически вместе с Hyprland.
+The carousel starts automatically together with Hyprland.
 
 
-Что находится внутри
---------------------
-Install.desktop        — графический ярлык установки
-Uninstall.desktop      — графический ярлык удаления
-Install.sh             — запасной запуск установки
-Uninstall.sh           — запасной запуск удаления
-installer.py           — вся логика установки/удаления
-README.txt             — этот файл
-payload/shell.qml      — рабочая карусель v7.7
+Repository / installer contents
+-------------------------------
+Install.desktop        — graphical installation launcher
+Uninstall.desktop      — graphical uninstall launcher
+Install.sh             — fallback installation entry point
+Uninstall.sh           — fallback uninstall entry point
+installer.py           — all installation / uninstall logic
+README.txt             — this file
+payload/shell.qml      — working Wallpaper Carousel v7.7
 payload/colour_indexer.py
-payload/wallpapers/    — стартовый пак обоев
+payload/wallpapers/    — starter wallpaper pack
 
-Стартовый пак v2:
-  58 файлов, примерно 192 MiB исходных изображений
-  категории: Anime, Cosmo, CyberPunk, Nature
+Starter wallpaper pack v2:
 
-Для установки обоев НЕ нужен 7z/zip: изображения уже лежат внутри установщика
-обычными файлами.
+  58 files
+  approximately 192 MiB of original images
+
+Categories:
+
+  Anime
+  Cosmo
+  CyberPunk
+  Nature
+
+No 7z or zip extraction is required for the wallpaper pack. The images are
+already stored as normal files inside the installer / repository.
 
 
-Куда ставятся файлы
--------------------
-Карусель:
+Installation paths
+------------------
+Carousel:
+
   ~/.config/quickshell/wallpaper-carousel/shell.qml
   ~/.config/quickshell/wallpaper-carousel/colour_indexer.py
 
-Обои:
+Wallpapers:
+
   <XDG Pictures>/Wallpapers/
 
-На обычном текущем сетапе это:
+On the current standard setup this is:
+
   ~/Pictures/Wallpapers/
 
-Установщик пытается получить Pictures через:
+The installer tries to resolve the Pictures directory using:
+
   xdg-user-dir PICTURES
 
-Если это недоступно, fallback:
+If that is unavailable, the fallback is:
+
   ~/Pictures
 
-Кэш самой карусели:
+Carousel cache:
+
   ~/.cache/wallpaper-carousel/
 
-Состояние/бэкапы установщика:
+Installer state / backups:
+
   ~/.local/state/wenderer-wallpaper-carousel-installer/
 
-Бэкапы конфигов:
+Configuration backups:
+
   ~/.local/state/wenderer-wallpaper-carousel-installer/backups/
 
-Manifest установленных комплектных обоев:
+Manifest of bundled wallpapers installed by the installer:
+
   ~/.local/state/wenderer-wallpaper-carousel-installer/wallpapers-installed.json
 
-Лог:
+Log:
+
   ~/.cache/wenderer-wallpaper-carousel-installer.log
 
 
-Какие Hyprland-файлы меняет установщик
---------------------------------------
+Hyprland files modified by the installer
+----------------------------------------
+
 1) ~/.config/hypr/variables.lua
 
-Ожидаемый текущий anchor:
+Expected current anchor:
+
   kbBrowser = "SUPER + W"
 
-На чистом текущем Caelestia-сетапе установщик меняет браузер на:
+On a clean current Caelestia setup, the installer changes the browser binding
+to:
+
   kbBrowser = "SUPER + B"
 
-и добавляет:
+and adds:
+
   kbWallpaperCarousel = "SUPER + W"
 
-Если kbBrowser уже вручную назначен на другое сочетание, установщик старается
-его не перезаписывать без необходимости.
+If kbBrowser has already been manually assigned to another shortcut, the
+installer tries not to overwrite it unnecessarily.
 
 
 2) ~/.config/hypr/hyprland/keybinds.lua
 
-Ожидаемый anchor:
+Expected anchor:
+
   create_bind(vars.kbBrowser, hl.dsp.exec_cmd(vars.browser))
 
-Сразу после него добавляется блок:
+Immediately after it, the installer adds:
 
   create_bind(
       vars.kbWallpaperCarousel,
       hl.dsp.exec_cmd("qs -c wallpaper-carousel ipc call carousel toggle")
   )
 
-В установленной версии блок окружён служебными комментариями-маркерами
-WENDERER_WALLPAPER_CAROUSEL, чтобы uninstall мог удалить именно его.
+In the managed installation, this block is surrounded by
+WENDERER_WALLPAPER_CAROUSEL marker comments so the uninstaller can remove the
+exact block it created.
 
 
 3) ~/.config/hypr/hyprland/execs.lua
 
-Ожидаемый anchor:
+Expected anchor:
+
   hl.exec_cmd("caelestia shell -d")
 
-После него добавляется:
+Immediately after it, the installer adds:
+
   hl.exec_cmd("qs -c wallpaper-carousel -n -d")
 
 
-Почему установщик проверяет anchors
+Why the installer validates anchors
 -----------------------------------
-Caelestia/Hyprland могут изменить структуру конфигов в будущем.
-Перед первой записью установщик проверяет ожидаемые точки в:
+Caelestia / Hyprland may change their configuration layout in the future.
+
+Before the first write, the installer validates the expected anchor points in:
+
   variables.lua
   keybinds.lua
   execs.lua
 
-Если структура не похожа на текущую, установка прерывается ДО опасной правки.
-Это намеренно: лучше получить ошибку, чем автоматически сломать новый конфиг.
+If the structure no longer resembles the current setup, installation stops
+BEFORE making potentially unsafe changes.
+
+This is intentional: receiving an installation error is better than
+automatically breaking a newer configuration.
 
 
-Повторная установка
--------------------
-Установщик рассчитан на повторный запуск:
-- bind карусели не дублируется;
-- автозапуск не дублируется;
-- payload карусели обновляется;
-- новый бэкап конфигов создаётся перед каждой установкой;
-- комплектные обои повторно не копируются без необходимости.
+Reinstalling / updating
+-----------------------
+The installer is designed to be safely executed more than once:
 
-Комплектные обои обновляются только если файл ранее был установлен этим
-установщиком И после установки пользователь его не изменял.
+- the carousel keybind is not duplicated;
+- the autostart entry is not duplicated;
+- the carousel payload is updated;
+- a new configuration backup is created before every installation;
+- bundled wallpapers are not copied again unless necessary.
 
+A bundled wallpaper is updated only when:
 
-Безопасность пользовательских обоев
-------------------------------------
-Установщик НЕ затирает уже существующий файл с таким же путём/именем, если не
-может доказать по manifest, что этот файл был установлен предыдущей версией
-этого же установщика.
-
-При uninstall удаляются только комплектные обои, которые:
-1. записаны в wallpapers-installed.json;
-2. всё ещё имеют тот же SHA-256, что был записан установщиком.
-
-Если комплектную картинку после установки отредактировать/заменить — uninstall
-её оставит.
-
-Любые добавленные вручную пользовательские обои uninstall не удаляет.
+1. it was previously installed by this installer; and
+2. the user has not modified the installed file since then.
 
 
-Первое удаление существующей ручной установки
-------------------------------------------------
-v2.1 умеет распознать именно тот manual/legacy-сетап, который был настроен
-до появления этого установщика:
+Safety of user wallpapers
+-------------------------
+The installer does NOT overwrite an already existing wallpaper with the same
+path / filename unless it can confirm from the manifest that the file was
+installed by a previous version of this installer.
+
+During uninstall, a bundled wallpaper is removed only when:
+
+1. it is recorded in wallpapers-installed.json; and
+2. its SHA-256 still matches the hash recorded by the installer.
+
+If a bundled wallpaper is edited or replaced after installation, the
+uninstaller leaves it untouched.
+
+Any wallpapers manually added by the user are also preserved.
+
+
+First uninstall of an existing manual installation
+--------------------------------------------------
+v2.1 can recognize the exact manual / legacy setup that existed before this
+installer was created:
 
   kbBrowser = "SUPER + B"
   kbWallpaperCarousel = "SUPER + W"
@@ -182,131 +247,197 @@ v2.1 умеет распознать именно тот manual/legacy-сета�
 
   hl.exec_cmd("qs -c wallpaper-carousel -n -d")
 
-Если одновременно присутствует весь этот шаблон и служебных маркеров
-установщика ещё нет, Uninstall считает его старой ручной установкой и:
-- удаляет carousel bind;
-- удаляет autostart;
-- удаляет kbWallpaperCarousel;
-- возвращает браузер SUPER+B -> SUPER+W.
+If the entire pattern is present and the installer marker comments are not yet
+present, Uninstall treats it as the old manual setup and:
 
-Это сделано специально, чтобы можно было безопасно проверить цикл:
+- removes the carousel keybind;
+- removes the carousel autostart entry;
+- removes kbWallpaperCarousel;
+- restores the browser shortcut from SUPER+B back to SUPER+W.
+
+This exists specifically so the following migration path can be tested safely:
+
   legacy/manual setup -> Uninstall -> stock-like state -> Install -> managed setup
 
-Если шаблон не совпадает полностью, установщик не делает это предположение
-вслепую.
-
-Что делает Uninstall
---------------------
-- останавливает qs -c wallpaper-carousel;
-- делает новый бэкап Hyprland-конфигов;
-- убирает переменную/бинд/автозапуск карусели;
-- если браузер SUPER+W -> SUPER+B менял именно установщик, возвращает SUPER+W;
-- удаляет ~/.config/quickshell/wallpaper-carousel/;
-- удаляет кэш карусели;
-- удаляет только неизменённые комплектные обои из manifest;
-- оставляет пользовательские и изменённые обои;
-- делает hyprctl reload, если Hyprland сейчас запущен.
-
-Старые бэкапы намеренно не удаляются.
+If the complete pattern does not match, the installer does not make this
+assumption blindly.
 
 
-Диагностика
+What Uninstall does
+-------------------
+- stops qs -c wallpaper-carousel;
+- creates a fresh backup of the Hyprland configuration files;
+- removes the carousel variable / keybind / autostart entry;
+- restores the browser shortcut to SUPER+W if the installer was the component
+  that changed it from SUPER+W to SUPER+B;
+- removes ~/.config/quickshell/wallpaper-carousel/;
+- removes the carousel cache;
+- removes only unchanged bundled wallpapers recorded in the manifest;
+- preserves user-added and user-modified wallpapers;
+- runs hyprctl reload when Hyprland is currently running.
+
+Old backups are intentionally preserved.
+
+
+Diagnostics
 -----------
-Из папки установщика можно проверить состояние командой:
+From the installer directory, the current state can be checked with:
 
   python3 installer.py status
 
-Основной лог:
+Main log:
+
   ~/.cache/wenderer-wallpaper-carousel-installer.log
 
-Если установка не сработала после будущего обновления Caelestia, для ремонта
-установщика полезно сохранить/передать:
+If installation stops working after a future Caelestia update, the most useful
+files to keep / provide when updating the installer are:
 
   ~/.config/hypr/variables.lua
   ~/.config/hypr/hyprland/keybinds.lua
   ~/.config/hypr/hyprland/execs.lua
-  этот README.txt
+  this README.txt
   installer.py
 
-Можно также получить короткие фрагменты командами:
+Short relevant configuration excerpts can also be collected with:
 
   grep -n -A8 -B8 'kbBrowser' ~/.config/hypr/variables.lua
   grep -n -A10 -B10 'kbBrowser' ~/.config/hypr/hyprland/keybinds.lua
   grep -n -A8 -B8 'caelestia shell -d' ~/.config/hypr/hyprland/execs.lua
 
-Этого достаточно, чтобы переписать anchors под новую структуру без повторного
-расследования всего сегодняшнего сетапа.
+This should be enough to adapt the installer anchors to a future configuration
+layout without repeating the entire original investigation.
 
 
-Текущая логика самой карусели (важно для будущего)
---------------------------------------------------
-Версия payload: v7.7.
+Current carousel implementation notes
+-------------------------------------
+Payload version:
 
-Основные свойства:
-- standalone Quickshell-конфиг, но backend/схема интегрированы с Caelestia;
+  v7.7
+
+Main properties:
+
+- standalone Quickshell configuration, while backend / colour scheme handling
+  remain integrated with Caelestia;
 - persistent qs service;
-- IPC target: carousel;
-- toggle:
-    qs -c wallpaper-carousel ipc call carousel toggle
-- запуск:
-    qs -c wallpaper-carousel -n -d
-- остановка:
-    qs -c wallpaper-carousel kill
-- входная анимация карусели справа;
-- прогрев изображений для мгновенного открытия;
-- live wallpaper при смене центральной карточки;
-- цветовая фильтрация/индексация;
-- algorithmVersion = 6;
-- группы: Red, Orange, Yellow, Green, Cyan, Blue, Purple, Pink, Black,
-  Monochrome;
-- цветовые кластеры агрегируются по группе (логика v7.7).
+- IPC target:
 
-Caelestia-интеграция текущего shell.qml использует:
+    carousel
+
+- toggle command:
+
+    qs -c wallpaper-carousel ipc call carousel toggle
+
+- start command:
+
+    qs -c wallpaper-carousel -n -d
+
+- stop command:
+
+    qs -c wallpaper-carousel kill
+
+- right-edge entrance animation;
+- image warming / preloading for near-instant reopening;
+- live wallpaper switching when the centered card changes;
+- wallpaper colour classification and filtering;
+- algorithmVersion = 6;
+- colour groups:
+
+    Red
+    Orange
+    Yellow
+    Green
+    Cyan
+    Blue
+    Purple
+    Pink
+    Black
+    Monochrome
+
+- colour clusters are aggregated by group using the v7.7 logic.
+
+The current shell.qml uses the following Caelestia integration points:
+
   ~/.config/caelestia/shell.json
   ~/.local/state/caelestia/scheme.json
   ~/.local/state/caelestia/wallpaper/path.txt
   caelestia wallpaper -f <path>
 
-Именно поэтому при полном отказе от Caelestia потребуется отдельная переделка
-backend/state/theme, а не только installer.py.
+Because of this, fully removing the Caelestia dependency would require a
+separate backend / state / theme implementation. Updating installer.py alone
+would not be enough.
 
 
-Проверка v2.1 перед упаковкой
----------------------------
-Установщик v2 был прогнан в изолированном тестовом HOME по циклу:
-  install -> status -> повторный install -> uninstall
+Installer v2 validation
+-----------------------
+Installer v2 was tested in an isolated HOME using the following cycle:
 
-В тесте дополнительно:
-- существующий пользовательский файл в Wallpapers сохранился;
-- файл, добавленный пользователем после установки, сохранился;
-- один намеренно изменённый комплектный wallpaper сохранился;
-- остальные 57 неизменённых комплектных wallpaper удалились;
-- variables.lua вернулся к исходному SUPER+W для браузера;
-- блок keybind карусели удалился;
-- строка autostart карусели удалилась;
-- повторная установка не создала дубликаты.
+  install -> status -> install again -> uninstall
 
-Это проверяет логику установщика на тестовой копии конфигов. Реальную систему
-всё равно нельзя математически гарантировать после будущих изменений Caelestia;
-поэтому существуют preflight-проверки, бэкапы и лог.
+The test additionally verified that:
+
+- an existing user wallpaper in Wallpapers was preserved;
+- a wallpaper added by the user after installation was preserved;
+- one intentionally modified bundled wallpaper was preserved;
+- the other 57 unchanged bundled wallpapers were removed;
+- variables.lua returned to the original SUPER+W browser shortcut;
+- the carousel keybind block was removed;
+- the carousel autostart line was removed;
+- running the installer twice did not create duplicate entries.
+
+This validates the installer logic against test copies of the configuration
+files.
+
+No installer can mathematically guarantee compatibility with future Caelestia
+changes, which is why the project includes preflight validation, backups and
+logging.
 
 
+Additional v2.1 validation
+--------------------------
+The first migration from the old manual setup was tested separately.
 
-Дополнительная проверка v2.1
-----------------------------
-Отдельно проверен сценарий первой миграции с ручной установки:
-- browser = SUPER+B без installer marker;
-- kbWallpaperCarousel = SUPER+W без installer marker;
-- manual carousel bind;
-- manual autostart.
+Initial state:
 
-После Uninstall:
-- browser снова SUPER+W;
-- kbWallpaperCarousel отсутствует;
-- carousel bind отсутствует;
-- autostart отсутствует.
+- browser = SUPER+B without an installer marker;
+- kbWallpaperCarousel = SUPER+W without an installer marker;
+- manual carousel keybind;
+- manual carousel autostart.
 
-После следующего Install:
-- browser снова SUPER+B уже с installer marker;
-- carousel = SUPER+W;
-- bind/autostart возвращаются как managed-изменения.
+After Uninstall:
+
+- browser returned to SUPER+W;
+- kbWallpaperCarousel was absent;
+- carousel keybind was absent;
+- carousel autostart was absent.
+
+After running Install again:
+
+- browser returned to SUPER+B, now managed by the installer;
+- carousel shortcut returned to SUPER+W;
+- keybind and autostart returned as managed installer changes.
+
+
+Real-system validation
+----------------------
+v2.1 was also tested on the actual target system.
+
+The following sequence was completed successfully:
+
+  existing manual setup
+  -> Uninstall
+  -> verification
+  -> Install
+  -> reboot
+  -> verification
+
+After reboot:
+
+- Wallpaper Carousel started automatically;
+- SUPER+W opened the carousel;
+- SUPER+B opened the browser;
+- the carousel worked normally.
+
+This confirms the current installer on the intended system configuration.
+
+Future Caelestia / Hyprland updates may still require changes to installer
+anchors or integration paths.
