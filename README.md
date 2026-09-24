@@ -15,6 +15,10 @@ This repository contains the tested **Wallpaper Carousel v7.7**, a one-click ins
 - One-click install / uninstall
 - Bundled starter wallpaper pack
 
+## Preview
+
+![Wallpaper Carousel — Blue filter](docs/screenshots/blue.jpg)
+
 ## Installation
 
 ```bash
