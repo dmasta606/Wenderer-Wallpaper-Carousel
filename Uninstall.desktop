@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Uninstall Wallpaper Carousel
+Comment=Remove the personal Caelestia wallpaper carousel
+Icon=preferences-desktop-wallpaper
+Terminal=false
+Exec=python3 -c "import sys,urllib.parse,pathlib,runpy;u=sys.argv[1];p=urllib.parse.unquote(urllib.parse.urlparse(u).path) if u.startswith('file:') else u;s=pathlib.Path(p).resolve().parent/'installer.py';sys.argv=[str(s),'uninstall'];runpy.run_path(str(s),run_name='__main__')" %k
+Categories=Settings;Utility;
