@@ -17,6 +17,14 @@ This repository contains the tested **Wallpaper Carousel v7.7**, a one-click ins
 
 ## Preview
 
+### Animated demo
+
+<p align="center">
+  <img src="docs/demo.gif" alt="Wallpaper Carousel animated demo">
+</p>
+
+### Screenshots
+
 <p align="center">
   <img src="docs/screenshots/blue.png" alt="Wallpaper Carousel — Blue filter">
 </p>
