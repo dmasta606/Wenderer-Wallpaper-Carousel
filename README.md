@@ -17,7 +17,14 @@ This repository contains the tested **Wallpaper Carousel v7.7**, a one-click ins
 
 ## Preview
 
-![Wallpaper Carousel — Blue filter](docs/screenshots/blue.jpg)
+<p align="center">
+  <img src="docs/screenshots/blue.png" alt="Wallpaper Carousel — Blue filter">
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/black.png" alt="Wallpaper Carousel — Black filter" width="49%">
+  <img src="docs/screenshots/cyan.png" alt="Wallpaper Carousel — Cyan filter" width="49%">
+</p>
 
 ## Installation
 
